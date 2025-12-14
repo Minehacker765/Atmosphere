@@ -33,7 +33,8 @@ jobs:
 
     - name: Extract files
       run: |
-        rm /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/*-debug.zip
+        dir /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/
+        rm /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/*-debug.zip || true
         unzip -j /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/*.zip atmosphere/package3 -d /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/
 
     - name: Upload
