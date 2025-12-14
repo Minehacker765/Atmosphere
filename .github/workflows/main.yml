@@ -14,9 +14,18 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
-
+        
+    - name: Dependencies
+      run: |
+        sudo apt-get update
+        sudo dkp-pacman -Sy
+        sudo apt-get install -y zip unzip python3-pip
+        sudo dkp-pacman -S --noconfirm switch-dev switch-glm switch-libjpeg-turbo hactool devkitARM
+        pip3 install lz4 pycryptodome --break-system-packages
+        
     - name: Compile all
       run: |
+        git config --global --add safe.directory '*'
         make -j$(nproc)
 
     - name: Extract files
