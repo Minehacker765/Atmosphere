@@ -30,7 +30,6 @@ jobs:
       - name: Setup ENV parameters
         run: |
           rev=$(echo "$(git rev-parse --short=9 HEAD)")
-          #tag=$(echo "$(git tag --sort=-version:refname|head -1)")
           echo "REV=${rev}" > "${GITHUB_ENV}"
           VER_FILE=libraries/libvapours/include/vapours/ams/ams_api_version.h
           VERSION=$(awk '/^#define ATMOSPHERE_RELEASE_VERSION_MAJOR/{print $3}' $VER_FILE).$(awk '/^#define ATMOSPHERE_RELEASE_VERSION_MINOR/{print $3}' $VER_FILE).$(awk '/^#define ATMOSPHERE_RELEASE_VERSION_MICRO/{print $3}' $VER_FILE)
@@ -42,7 +41,7 @@ jobs:
         run: |
           export DEVKITPRO=/opt/devkitpro
           make -f atmosphere.mk dist-no-debug
-          unzip -j ./out/nintendo_nx_arm64_armv8a/release/atmosphere-$(VER)-master-$(REV).zip atmosphere/package3 -d ./out/nintendo_nx_arm64_armv8a/release/ || true
+          unzip -j ./out/nintendo_nx_arm64_armv8a/release/atmosphere*.zip atmosphere/package3 -d ./out/nintendo_nx_arm64_armv8a/release/ || true
         shell: bash
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2.0.9
