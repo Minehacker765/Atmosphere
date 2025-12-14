@@ -31,7 +31,6 @@ jobs:
     - name: Extract files
       run: |
         rm out/nintendo_nx_arm64_armv8a/release/*-debug.zip
-        sudo apt-get update && sudo apt-get install -y unzip || true
         unzip -j out/nintendo_nx_arm64_armv8a/release/*.zip atmosphere/package3 -d out/nintendo_nx_arm64_armv8a/release/
 
     - name: Upload
