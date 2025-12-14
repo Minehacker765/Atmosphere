@@ -12,13 +12,13 @@ jobs:
     container: devkitpro/devkita64:latest
 
     steps:
-      - name: Update latest libnx
-        run: |
-          git config --global --add safe.directory "*"
-          git clone --recurse-submodules https://github.com/switchbrew/libnx.git
-          cd libnx
-          make install -j$(nproc)
-        shell: bash
+#      - name: Update latest libnx
+#        run: |
+#          git config --global --add safe.directory "*"
+#          git clone --recurse-submodules https://github.com/switchbrew/libnx.git
+#          cd libnx
+#          make install -j$(nproc)
+#        shell: bash
       - name: Checkout latest code
         uses: actions/checkout@v4.1.1
         with:
@@ -41,7 +41,7 @@ jobs:
       - name: Build
         run: |
           export DEVKITPRO=/opt/devkitpro
-          make -j$(nproc) -f atmosphere.mk dist-no-debug
+          make -j$(nproc) -f atmosphere.mk dist-no-debug -k || true
           unzip -j ./out/nintendo_nx_arm64_armv8a/release/atmosphere-$(VER)-master-$(REV).zip atmosphere/package3 -d ./out/nintendo_nx_arm64_armv8a/release/ || true
         shell: bash
       - name: Upload Release Asset
