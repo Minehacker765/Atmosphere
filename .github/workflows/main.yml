@@ -41,7 +41,7 @@ jobs:
       - name: Build
         run: |
           export DEVKITPRO=/opt/devkitpro
-          make -f atmosphere.mk dist-no-debug
+          make -j$(nproc) -f atmosphere.mk dist-no-debug
           unzip -j ./out/nintendo_nx_arm64_armv8a/release/atmosphere-$(VER)-master-$(REV).zip atmosphere/package3 -d ./out/nintendo_nx_arm64_armv8a/release/ || true
         shell: bash
       - name: Upload Release Asset
