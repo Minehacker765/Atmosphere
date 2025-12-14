@@ -14,27 +14,29 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
+        fetch-depth: 0
         
     - name: Dependencies
       run: |
         sudo apt-get update
         sudo dkp-pacman -Sy
-        sudo apt-get install -y zip unzip python3-pip
-        sudo dkp-pacman -S --noconfirm switch-dev switch-glm switch-libjpeg-turbo hactool devkitARM
+        sudo apt-get install -y zip unzip python3-pip build-essential pkg-config
+        sudo dkp-pacman -S --noconfirm switch-dev switch-glm switch-libjpeg-turbo switch-zlib switch-freetype switch-libpng hactool devkitARM
         pip3 install lz4 pycryptodome --break-system-packages
+        git config --global --add safe.directory "$PWD"
+        git config --global --add safe.directory /__w/Atmosphere/Atmosphere
         
     - name: Compile all
       run: |
-        git config --global --add safe.directory '*'
         make -j$(nproc)
 
     - name: Extract files
       run: |
-        rm out/nintendo_nx_arm64_armv8a/release/*-debug.zip
-        unzip -j out/nintendo_nx_arm64_armv8a/release/*.zip atmosphere/package3 -d out/nintendo_nx_arm64_armv8a/release/
+        rm /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/*-debug.zip
+        unzip -j /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/*.zip atmosphere/package3 -d /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release/
 
     - name: Upload
       uses: actions/upload-artifact@v4
       with:
         name: Atmosphere-Custom-Logo
-        path: out/nintendo_nx_arm64_armv8a/release
+        path: /__w/Atmosphere/Atmosphere/out/nintendo_nx_arm64_armv8a/release
