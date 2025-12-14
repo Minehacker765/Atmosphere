@@ -1,0 +1,32 @@
+name: Compile Atmosphere with edited logo
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container: devkitpro/devkita64:latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Compile all
+      run: |
+        make -j$(nproc)
+
+    - name: Extract files
+      run: |
+        rm out/nintendo_nx_arm64_armv8a/release/*-debug.zip
+        sudo apt-get update && sudo apt-get install -y unzip || true
+        unzip -j out/nintendo_nx_arm64_armv8a/release/*.zip atmosphere/package3 -d out/nintendo_nx_arm64_armv8a/release/
+
+    - name: Upload
+      uses: actions/upload-artifact@v4
+      with:
+        name: Atmosphere-Custom-Logo
+        path: out/nintendo_nx_arm64_armv8a/release
