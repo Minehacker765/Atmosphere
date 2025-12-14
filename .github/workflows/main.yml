@@ -28,6 +28,7 @@ jobs:
         
     - name: Compile all
       run: |
+        echo Compiling with $(nproc) processes
         make -k -j$(nproc) || true
 
     - name: Extract files
