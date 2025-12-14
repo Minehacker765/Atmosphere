@@ -14,7 +14,6 @@ jobs:
     steps:
 #      - name: Update latest libnx
 #        run: |
-#          git config --global --add safe.directory "*"
 #          git clone --recurse-submodules https://github.com/switchbrew/libnx.git
 #          cd libnx
 #          make install -j$(nproc)
@@ -29,6 +28,7 @@ jobs:
           submodules: recursive
       - name: Setup ENV parameters
         run: |
+          git config --global --add safe.directory "*"
           rev=$(echo "$(git rev-parse --short=9 HEAD)")
           #tag=$(echo "$(git tag --sort=-version:refname|head -1)")
           echo "REV=${rev}" > "${GITHUB_ENV}"
