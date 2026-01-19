@@ -28,4 +28,4 @@ jobs:
         run: |
           git checkout master
           git rebase -X theirs upstream/master
-          git push origin master
+          git push origin master --force-with-lease
